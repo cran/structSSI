@@ -1,4 +1,4 @@
-b3f1782e622cc95e4963473a586cf672 *DESCRIPTION
+1fc3cffcb6a71234e8efbbf040ca4f33 *DESCRIPTION
 fd74563288c78d7adf1549211ca76350 *NAMESPACE
 8b9ee5b8b837831cecbac4df5d253d7b *R/Adaptive.GBH.R
 4bbe368a5cce529f09f9425a99fbf329 *R/Adaptive.GBH.adjp.R
@@ -18,11 +18,11 @@ d1981798fab40684cf1470205e82b2cd *R/validHypothesesTree.R
 782408a5a7a633261c8f34a8da3c9289 *man/Adaptive.GBH.Rd
 312431e15fb471e96532e591eedd1ab6 *man/Oracle.GBH.Rd
 d98e2c30bb8aa3191d0ecfdf8e7a897b *man/estimate.pi0.Rd
-2243b7dfa0738ce1f43d3843e69cb4c4 *man/hFDR.adjust.Rd
-df15029086b5dfbc0b8d9134dda1a0ae *man/hypothesesTree.rd
+95e9a28f3b6402b748f0643f99e69e70 *man/hFDR.adjust.Rd
+07224f279e34a0eb45c122aeb7d2a6cf *man/hypothesesTree.rd
 6050f011cbce713ac3072b2cc0bd6a78 *man/plot-methods.Rd
 eda64be8ce7439558b086c625e827b07 *man/structSSI-internal.Rd
-2c139b37b68967711b0bd70e13dbc8b2 *man/structSSI-package.Rd
-4bcd0d6d44772688d7e5b62f63c58fc9 *man/treePValues.Rd
-274e40a0b2216fd9c9f61a115c84d8f4 *tests/testGBHProcedures.R
-bce25442b99250310b422ed3c86c8c52 *tests/testHierarchicalMethods.R
+526696aa9bd921cc352d8ed460d04da8 *man/structSSI-package.Rd
+46a43fb0e722d6076076ebc747bddd37 *man/treePValues.Rd
+fc69e0f3be7ff1ed6b6dbaed3e4ee610 *tests/testGBHProcedures.R
+c9ebc747fbf23db889dd44376b640677 *tests/testHierarchicalMethods.R
