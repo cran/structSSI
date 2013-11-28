@@ -44,6 +44,8 @@ treePValues(tree, abundances, environments)
 
 \examples{
 ## Load data from the phyloseq package
+library('igraph')
+library('ape')
 library('phyloseq')
 data(GlobalPatterns)
 GP.chl <- subset_taxa(GlobalPatterns, Phylum == "Chlamydiae")
