@@ -4,7 +4,8 @@
 \docType{package}
 \title{
 
-  Structured Simultaneous and Selective Inference: Multiple Testing for Hypotheses with Hierarchical or Group Structure
+  Structured Simultaneous and Selective Inference for Grouped or
+  Hierarchically Structured Data
 
 }
 
@@ -67,6 +68,10 @@
   groups. Journal of the American Statistical Association, volume 104,
   number 491. Pages 1215-1227. 2010.
 
+  Sankaran, K and Holmes, S. structSSI: Simultaneous and Selective
+  Inference for Grouped or Hierarchically Structured Data. Journal of
+  Statistical Software, 59(13), 1-21. 2014. http://jstatsoft.org/v59/i13/
+
   Yekutieli, D. Hierarchical false discovery rate-controlling
   methodology. Journal of the American Statistical Association,
   103(481):309-316, 2008.
@@ -84,31 +89,23 @@ set.seed(2249)
 unadjp <- c(runif(40, 0, 0.001), runif(30, 0, 0.1), runif(130, 0, 1))
 names(unadjp) <- paste("hyp", c(1:200))
 groups <- c(sample(1:3, 200, replace = TRUE))
-result <- Adaptive.GBH.adjp(unadjp, groups, method = "lsl", alpha = 0.05)
+result <- Adaptive.GBH(unadjp, groups, method = "lsl", alpha = 0.05)
 
 ## Example of using the Hierarchical FDR controlling procedure.
 library('igraph')
 library('ape')
 
-tree <- as.matrix(get.adjacency(as.igraph(rtree(25)), sparse = FALSE))
-hypotheses.names <- paste("Hyp ", c(1:49))
 alternative.indices <- sample(1:49, 30)
-
-# Simulating the results of a multiple testing experiment.
-
 unadj.p.values <- vector("numeric", length = 49)
-unadj.p.values[alternative.indices] <- runif(30, 0, 0.001)
-unadj.p.values[-alternative.indices][1:4] <- runif(4 , 0, 1)
-unadj.p.values[-alternative.indices][5:19] <- runif(15, 0, 0.7)
-unadj.p.values[c(1:5)] <- runif(5, 0, 0.0001)
+unadj.p.values[alternative.indices] <- runif(30, 0, 0.01)
+unadj.p.values[-alternative.indices] <- runif(19, 0, 1)
+unadj.p.values[c(1:5)] <- runif(5, 0, 0.01)
+names(unadj.p.values) <- paste("Hyp ", c(1:49))
 
-hyp.tree <- new("hypothesesTree", tree = tree,
-                 hypotheses.names = hypotheses.names,
-                 unadj.p.values = unadj.p.values)
+tree <- as.igraph(rtree(25))
+V(tree)$name <- names(unadj.p.values)
+tree.el <- get.edgelist(tree)
 
-hyp.tree.adjust <- hFDR.adjust(hyp.tree, 0.05)
-hyp.tree@rejected.hypotheses <- hyp.tree.adjust$rejected.hypotheses
-hyp.tree@adj.p.values <- hyp.tree.adjust$adjp.values
-plotAdjustedHypothesesTree(hyp.tree)
-
+hyp.tree <- hFDR.adjust(unadj.p.values, tree.el, 0.05)
+plot(hyp.tree)
 }

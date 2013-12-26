@@ -27,20 +27,27 @@ FDR Controlling Procedure for Hierarchically Structured Hypotheses
 
 \usage{
 
-hFDR.adjust(hyp.tree, alpha = 0.05)
+hFDR.adjust(unadjp, tree.el, alpha = 0.05)
 
 }
 
 \arguments{
-  \item{hyp.tree}{
-    An object of class \code{hypothesesTree}.
-}
+  \item{unadjp}{A vector of raw p-values resulting from an
+    experiment. The names of this vector should be contained
+    in the edgelist parameterizing the hierarchical structure between
+    hypothesis, inputted as \code{tree.el}.
+  }
+  \item{tree.el}{The edgelist parameterizing the hierarchical
+    structure between hypotheses. The edges must be stored so that
+    each edge is a row of a two column matrix, where the first
+    column gives the parent and the second gives the child.}
+  
   \item{alpha}{
     The level of FDR control within families of the tree. Note that this
-  is NOT necessarily the level of FDR control within the entire
-  tree. Refer to the paper by Yekutieli and Benjamini for bounds on
-  various FDR criterion.
-}
+    is NOT necessarily the level of FDR control within the entire
+    tree. Refer to the paper by Yekutieli and Benjamini for bounds on
+    various FDR criterion.
+  }
 }
 \details{
   The FDR controlling procedure is described in more detail in the paper
@@ -58,11 +65,7 @@ hFDR.adjust(hyp.tree, alpha = 0.05)
 }
 
 \value{
-
-  A list where the first element contains a character vector of the names
-  of those hypotheses that were rejected and the second element contains
-  a vector of the adjusted p-values resulting from the procedure.
-
+  An object of class \code{hypothesesTree}.
 }
 
 \references{
@@ -74,39 +77,37 @@ methodology. Journal of the American Statistical Association,
 Benjamini, Y, and Yekutieli, D. Hierarchical fdr testing of trees of
 hypotheses. 2002.
 
+  Sankaran, K and Holmes, S. structSSI: Simultaneous and Selective
+  Inference for Grouped or Hierarchically Structured Data. Journal of
+  Statistical Software, 59(13), 1-21. 2014. http://jstatsoft.org/v59/i13/
+
+
 }
 
-\author{
-
-  Kris Sankaran
-
-}
+\author{Kris Sankaran}
 
 \examples{
 library('igraph')
 library('ape')
 
-set.seed(12309)
-tree <- as.matrix(get.adjacency(as.igraph(rtree(25)), sparse = FALSE))
-hypotheses.names <- paste("Hyp ", c(1:49))
 alternative.indices <- sample(1:49, 30)
 unadj.p.values <- vector("numeric", length = 49)
-unadj.p.values[alternative.indices] <- runif(30, 0, 0.001)
+unadj.p.values[alternative.indices] <- runif(30, 0, 0.01)
 unadj.p.values[-alternative.indices] <- runif(19, 0, 1)
-unadj.p.values[c(1:5)] <- runif(5, 0, 0.0001)
+unadj.p.values[c(1:5)] <- runif(5, 0, 0.01)
+names(unadj.p.values) <- paste("Hyp ", c(1:49))
 
-hyp.tree <- new("hypothesesTree", tree = tree,
-                 hypotheses.names = hypotheses.names,
-                 unadj.p.values = unadj.p.values)
+tree <- as.igraph(rtree(25))
+V(tree)$name <- names(unadj.p.values)
+tree.el <- get.edgelist(tree)
 
-hyp.tree.adjust <- hFDR.adjust(hyp.tree, 0.05)
-hyp.tree@rejected.hypotheses <- hyp.tree.adjust$rejected.hypotheses
-hyp.tree@adj.p.values <- hyp.tree.adjust$adjp.values
+hyp.tree <- hFDR.adjust(unadj.p.values, tree.el, 0.05)
 
 ## We can visualize the difference between the unadjusted and the
 ## adjusted trees.
-plotUnadjustedHypothesesTree(hyp.tree, 0.05)
-plotAdjustedHypothesesTree(hyp.tree)
+plot(hyp.tree, adjust = FALSE)
+plot(hyp.tree, adjust = TRUE)
 }
 
+\seealso{\code{\link{hypothesesTree-class}}}
 \keyword{ ~htest }

@@ -1,65 +1,30 @@
-## This returns a list with two elements. The first
-## is a vector of the hypotheses that have been rejected
-## by the multiple testing routine. The second is a
-## vector of all the p-values of the hypotheses that
-## have been tested.
-
-
-hFDR.adjust <- function(hyp.tree, alpha = 0.05){
-
-  if(hyp.tree@unadj.p.values[1] > alpha){
-        warning("Root hypothesis p-value equal to ", hyp.tree@unadj.p.values[1], ".
-Fail to reject, terminating procedure.")
-        return(list(rejected.hypotheses = NA, adjp.values = hyp.tree@unadj.p.values[1]))
+hFDR.adjust <- function(unadjp, tree.el, alpha = 0.05) {
+    # If user does not name unadjusted p-values or tree nodes,
+    # assume i^th element of unadjp corresponds to the i^th
+    # row / column of tree.
+    if(is.null(names(unadjp))) {
+        names(unadjp) <- 1:length(unadjp)
+    }
+    if(!all(names(unadjp) %in% unique(as.vector(tree.el)))) {
+        stop("Names of elements in unadjp do not match names of tree nodes")
     }
 
-    tree <- graph.adjacency(hyp.tree@tree)
-    V(tree)$hyp.names <- hyp.tree@hypotheses.names
-    V(tree)$p.vals <- hyp.tree@unadj.p.values
-    edgelist <- get.edgelist(tree, names = FALSE)
-    root.position.in.edgelist <- which(edgelist[,1] == 1)
-    children <- edgelist[root.position.in.edgelist, 2]
+    p.vals <- data.frame(unadjp, adjp = NA)
+    hyp.tree.unadjusted <- new("hypothesesTree", tree = tree.el,
+                               p.vals = p.vals, alpha = alpha)
 
-    # get the corresponding p-values.
-    children.p.vals <- hyp.tree@unadj.p.values[children] # corrects for igraph 1 indexing
-    adjust <- mt.rawp2adjp(children.p.vals, "BH")
-    adjp <- adjust$adjp
-    adjp.index <- adjust$index
-
-    rejected.proc <- mt.reject(adjp, alpha)
-    rejected.children <- adjp.index[which(rejected.proc$which[,2])]
-    rejected <- children[rejected.children]
-
-    # add the running list of adjusted p.values
-    adjusted.p.values <- adjp[, 2]
-    adjusted.p.values <- adjusted.p.values[adjp.index]
-    names(adjusted.p.values) <- hyp.tree@hypotheses.names[children]
-
-    # Now, we test only those hypotheses descending from those children
-    # that were just rejected according ato the simultaneous comparison
-    # in the family.
-
-    # We can do this by finding all the subtrees descending from the
-    # hypotheses that were rejected and testing those as a family.
-
-    for(child in rejected){
-
-        subcomp <- subcomponent(tree, child, "out")
-
-        if(length(subcomp) > 1){
-            subtree <- new("hypothesesTree")
-            subtree.igraph <- induced.subgraph(graph = tree, vids = subcomp)
-            subtree@tree <- as.matrix(get.adjacency(subtree.igraph))
-            subtree@hypotheses.names <- V(subtree.igraph)$hyp.names
-
-            subtree@unadj.p.values <- V(subtree.igraph)$p.vals
-            new.adjp <- hFDR.adjust(subtree, alpha)$adjp.values
-            adjusted.p.values <- c(adjusted.p.values, new.adjp)
-        }
-
+    # Check to see if possible to descend from the root node (if not
+    #  significant reject no hypotheses).
+    root <- FindRoot(hyp.tree.unadjusted@tree)
+    if(hyp.tree.unadjusted@p.vals[root, 'unadjp'] > alpha){
+        warning("Root hypothesis p-value equal to ", hyp.tree.unadjusted@p.vals[root, 'unadjp'], ". Fail to reject any hypotheses, terminating procedure.")
+        hyp.tree.unadjusted@p.vals[, 'adj.significance'] <- '-'
+        return(hyp.tree.unadjusted)
     }
-
-    rejected.hyp <- names(adjusted.p.values[which(adjusted.p.values <= alpha)])
-
-    return(list(rejected.hypotheses = rejected.hyp, adjp.values = adjusted.p.values))
+    
+    # Perform correction, and format output
+    hyp.tree <- hFDR.internal(hyp.tree.unadjusted)
+    hyp.tree@p.vals[root, 'adjp'] <- hyp.tree@p.vals[root, 'unadjp']
+    hyp.tree@p.vals[, 'adj.significance'] <- SignificanceStars(alpha, hyp.tree@p.vals[, 'adjp'])
+    return(hyp.tree)
 }

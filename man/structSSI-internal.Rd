@@ -1,15 +1,20 @@
 \name{structSSI-internal.Rd}
-\alias{Oracle.GBH.adjp}
 \alias{pi0.tail.p}
 \alias{pi0.tst}
 \alias{pi0.lsl}
-\alias{Adaptive.GBH.adjp}
-\alias{plotUnadjustedHypothesesTree}
-\alias{plotAdjustedHypothesesTree}
+\alias{StepUp}
+\alias{SignificanceStars}
 \alias{validHypothesesTree}
 \alias{initialize-methods}
 \alias{show-methods}
 \alias{plot-methods}
+\alias{FindRoot}
+\alias{HypTreeJSON}
+\alias{ListTreePval}
+\alias{PlotHypTree}
+\alias{hFDR.internal}
+
+
 \title{
   Internal structSSI Functions
 }
