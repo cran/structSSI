@@ -2,16 +2,27 @@ Package: structSSI
 Type: Package
 Title: Multiple Testing for Hypotheses with Hierarchical or Group
         Structure
-Version: 1.1.1
-Date: 2015-5-4
-Author: Kris Sankaran
-Maintainer: Kris Sankaran <kriss1@stanford.edu>
-Description: Performs multiple testing corrections that take specific structure of hypotheses into account.
+Version: 1.2.0
+Authors@R: person(given = "Kris",
+                  family = "Sankaran",
+                  role = c("aut", "cre"),
+                  email = "ksankaran@wisc.edu",
+                  comment = c(ORCID = "0000-0002-9415-1971"))
+Description: Performs multiple testing corrections that take specific structure
+    of hypotheses into account, as described in Sankaran & Holmes (2014)
+    <doi:10.18637/jss.v059.i13>.
 License: GPL-2
-Depends: methods
-Imports: multtest, igraph, rjson, ggplot2, reshape2
-Suggests: ape, phyloseq
-Packaged: 2015-05-05 04:27:20 UTC; krissankaran
+Imports: methods, multtest, igraph, jsonlite, ggplot2, phyloseq,
+        reshape2
+Suggests: ape, testthat
+RoxygenNote: 7.3.3
+Depends: R (>= 3.5)
+biocViews: Software
+Encoding: UTF-8
 NeedsCompilation: no
+Packaged: 2025-09-19 20:51:11 UTC; krissankaran
+Author: Kris Sankaran [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-9415-1971>)
+Maintainer: Kris Sankaran <ksankaran@wisc.edu>
 Repository: CRAN
-Date/Publication: 2015-05-05 06:57:32
+Date/Publication: 2025-09-27 08:40:02 UTC

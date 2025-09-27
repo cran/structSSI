@@ -55,7 +55,7 @@
 
   Kris Sankaran
 
-  Maintainer: kriss1@stanford.edu
+  Maintainer: ksankaran@wisc.edu
 
 }
 
@@ -70,7 +70,7 @@
 
   Sankaran, K and Holmes, S. structSSI: Simultaneous and Selective
   Inference for Grouped or Hierarchically Structured Data. Journal of
-  Statistical Software, 59(13), 1-21. 2014. http://jstatsoft.org/v59/i13/
+  Statistical Software, 59(13), 1-21. 2014. https://jstatsoft.org/v59/i13/
 
   Yekutieli, D. Hierarchical false discovery rate-controlling
   methodology. Journal of the American Statistical Association,
