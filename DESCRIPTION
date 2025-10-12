@@ -2,7 +2,7 @@ Package: structSSI
 Type: Package
 Title: Multiple Testing for Hypotheses with Hierarchical or Group
         Structure
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: person(given = "Kris",
                   family = "Sankaran",
                   role = c("aut", "cre"),
@@ -20,9 +20,9 @@ Depends: R (>= 3.5)
 biocViews: Software
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2025-09-19 20:51:11 UTC; krissankaran
+Packaged: 2025-10-12 02:35:03 UTC; krissankaran
 Author: Kris Sankaran [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-9415-1971>)
 Maintainer: Kris Sankaran <ksankaran@wisc.edu>
 Repository: CRAN
-Date/Publication: 2025-09-27 08:40:02 UTC
+Date/Publication: 2025-10-12 09:30:02 UTC

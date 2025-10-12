@@ -1,4 +1,4 @@
-3a7405a33e185bd8659e5ba936ec91b6 *DESCRIPTION
+f9e685e8e4b5be606c5b1ac5931dd726 *DESCRIPTION
 96ac6b95ef5c224aebfed4326bb494ee *NAMESPACE
 83673904c0a9f1ce7e9b542684f2e0f0 *R/chlamydiae.R
 ad521ce9073d3cc73ee61abe25f63f7f *R/gbh.R
@@ -23,5 +23,5 @@ d259f380ba141b44b9cc3b526eebfd6d *man/hFDR.adjust.Rd
 eb82eb079ea31e005e63eb9e75e05e3f *man/structSSI-package.Rd
 8bfdde7f920b116edc654f0a82edd9f3 *man/treePValues.Rd
 c93884a3ea1a393846e9d51d97c050b1 *tests/testthat.R
-181e2cd5751a22d3484a91b08570cc3c *tests/testthat/test_gbh.R
+197c2702637e4a5d54d74bfc8436b5d2 *tests/testthat/test_gbh.R
 4a3cfcdfbf7567a4e2a7e8bcfedec48c *tests/testthat/test_hfdr.R
